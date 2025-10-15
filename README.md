@@ -1,30 +1,37 @@
-# Clarity Content Studio
+# Social Media Content Planner for Therapists
 
 An AI-powered content creation platform specifically designed for licensed psychotherapists to plan, generate, and organize their social media content ethically and efficiently.
 
 ## Features
 
 ### 🎯 Core Modules
-
 - **Brand Foundation Builder**: Step-by-step guided form to capture ideal client demographics, brand voice, values, and content goals
-- **Content Calendar**: Monthly/weekly/daily view with drag-and-drop planning and CSV export
 - **Post Generator**: AI-powered content creation for various formats (carousel, reel, story, text post)
 - **Template Gallery**: Professional design templates optimized for mental health professionals
 - **Content Vault**: Searchable library of content ideas with filtering and favorites
 
 ### 🤖 Smart Features
-
-- **"I'm Stuck" Button**: Quick content idea generation based on user profile
+- **AI Content Ideas**: Quick content idea generation based on user profile
 - **Weekly Prompt Generator**: Dashboard widget for inspiration
 - **Editable Content Pillars**: Customizable content themes per user
 - **Platform-Specific Content**: Tailored for Instagram, TikTok, LinkedIn, and Facebook
 
 ### 🔐 Backend & Authentication
-
 - User account system with email/Google auth
-- Private data storage for content calendars and brand profiles
+- Private data storage for content and brand profiles
 - Supabase backend integration
 - OpenAI API integration for content generation
+
+## Streamlined Design
+
+This app focuses on the **4 core features** that provide the most value:
+
+1. **Brand Builder** - Foundation for all content
+2. **Post Generator** - AI-powered content creation  
+3. **Template Gallery** - AI image prompt generation
+4. **Content Vault** - Content organization & storage
+
+*Note: Content Calendar has been removed to reduce complexity and focus on core content creation features.*
 
 ## Tech Stack
 
@@ -40,8 +47,7 @@ An AI-powered content creation platform specifically designed for licensed psych
 ## Getting Started
 
 ### Prerequisites
-
-- Node.js 18+ 
+- Node.js 18+
 - npm or yarn
 - Supabase account
 - OpenAI API key
@@ -51,7 +57,7 @@ An AI-powered content creation platform specifically designed for licensed psych
 1. Clone the repository:
 ```bash
 git clone <repository-url>
-cd clarity-content-studio
+cd social-media-content-planner-therapists
 ```
 
 2. Install dependencies:
@@ -86,22 +92,6 @@ CREATE TABLE user_profiles (
   practice_name TEXT,
   brand_foundation JSONB,
   content_pillars TEXT[],
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-
--- Content calendar table
-CREATE TABLE content_posts (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
-  date DATE NOT NULL,
-  platform TEXT NOT NULL,
-  title TEXT NOT NULL,
-  caption TEXT,
-  hashtags TEXT,
-  visual_notes TEXT,
-  cta TEXT,
-  status TEXT DEFAULT 'draft',
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
@@ -145,7 +135,6 @@ src/
 ├── pages/
 │   ├── Dashboard.jsx
 │   ├── BrandBuilder.jsx
-│   ├── ContentCalendar.jsx
 │   ├── PostGenerator.jsx
 │   ├── TemplateGallery.jsx
 │   ├── ContentVault.jsx
@@ -186,12 +175,6 @@ src/
 3. Set your brand voice and values
 4. Download your brand guide
 
-### Content Calendar
-1. Select dates on the calendar
-2. Add posts with platform-specific details
-3. Export your calendar to CSV
-4. Integrate with scheduling tools
-
 ### Post Generator
 1. Choose content format and platform
 2. Select tone and topic
@@ -201,7 +184,7 @@ src/
 ### Template Gallery
 1. Browse professional templates
 2. Filter by platform and category
-3. Open in Canva for customization
+3. Generate AI prompts for image creation
 4. Save favorites for later use
 
 ### Content Vault
@@ -224,7 +207,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Support
 
-For support, email support@claritycontent.studio or join our Discord community.
+For support, email support@socialmediacontentplanner.com or join our Discord community.
 
 ## Roadmap
 

@@ -1,8 +1,10 @@
 {
-  "name": "clarity-content-studio",
+  "name": "social-media-content-planner-therapists",
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "description": "AI-powered social media content planner designed specifically for therapists and mental health professionals",
+  "keywords": ["therapist", "social media", "content planning", "mental health", "AI", "therapy marketing"],
   "scripts": {
     "dev": "vite",
     "build": "npm run lint && vite build",

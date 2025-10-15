@@ -56,13 +56,10 @@ const Button = ({
       {loading && (
         <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin mr-2" />
       )}
-      
       {icon && iconPosition === 'left' && !loading && (
         <SafeIcon icon={icon} className="w-4 h-4 mr-2" />
       )}
-      
       {children}
-      
       {icon && iconPosition === 'right' && !loading && (
         <SafeIcon icon={icon} className="w-4 h-4 ml-2" />
       )}

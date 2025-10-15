@@ -5,12 +5,10 @@ import Button from '../components/UI/Button';
 import Select from '../components/UI/Select';
 import SafeIcon from '../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
+import { generatePostContent } from '../lib/openai';
 import toast from 'react-hot-toast';
 
-const { 
-  FiEdit3, FiInstagram, FiLinkedin, FiYoutube, FiCopy, FiRefreshCw, 
-  FiImage, FiVideo, FiFileText, FiMessageSquare, FiBookOpen 
-} = FiIcons;
+const { FiEdit3, FiInstagram, FiLinkedin, FiYoutube, FiCopy, FiRefreshCw, FiImage, FiVideo, FiFileText, FiMessageSquare, FiBookOpen } = FiIcons;
 
 const PostGenerator = () => {
   const [loading, setLoading] = useState(false);
@@ -92,126 +90,22 @@ const PostGenerator = () => {
 
     setLoading(true);
     try {
-      // Simulate content generation
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
       const format = formats.find(f => f.id === selectedFormat);
-      const sampleContent = generateSampleContent(format, selectedPlatform, selectedTone, topic);
+      const content = await generatePostContent(format.name, selectedPlatform, selectedTone, topic);
       
       setGeneratedContent({
         format: format.name,
         platform: selectedPlatform,
-        content: sampleContent,
+        content: content,
         topic: topic
       });
-      
+
       toast.success('Content generated successfully!');
     } catch (error) {
-      toast.error('Failed to generate content. Please try again.');
+      console.error('Error generating content:', error);
+      toast.error('Failed to generate content. Please check your API key.');
     } finally {
       setLoading(false);
-    }
-  };
-
-  const generateSampleContent = (format, platform, tone, topic) => {
-    const toneAdjectives = {
-      professional: 'evidence-based',
-      warm: 'gentle',
-      casual: 'simple',
-      inspiring: 'empowering',
-      educational: 'informative'
-    };
-
-    const adjective = toneAdjectives[tone] || 'helpful';
-
-    switch (format.id) {
-      case 'carousel':
-        return `🌟 CAROUSEL POST: ${topic.toUpperCase()}
-
-SLIDE 1: Hook
-"Did you know that ${adjective} techniques can transform your daily experience with ${topic.toLowerCase()}?"
-
-SLIDE 2-6: Tips
-• Technique 1: Deep breathing exercises
-• Technique 2: Grounding through your senses  
-• Technique 3: Progressive muscle relaxation
-• Technique 4: Mindful self-compassion
-• Technique 5: Creating a support system
-
-SLIDE 7: Call to Action
-"Which technique resonates most with you? Share in the comments below! 👇"
-
-HASHTAGS:
-#MentalHealth #${topic.replace(/\s+/g, '')} #TherapyTips #SelfCare #MentalHealthAwareness #Wellness #${platform.charAt(0).toUpperCase() + platform.slice(1)}
-
-DISCLAIMER: This content is for educational purposes only and is not a substitute for professional mental health treatment.`;
-
-      case 'reel':
-        return `🎬 REEL SCRIPT: ${topic.toUpperCase()}
-
-HOOK (0-3 seconds):
-"3 ${adjective} ways to handle ${topic.toLowerCase()}"
-
-MAIN CONTENT (4-25 seconds):
-1. [ON SCREEN: "Breathe"] Take 3 deep breaths
-2. [ON SCREEN: "Ground"] Name 5 things you can see
-3. [ON SCREEN: "Connect"] Reach out to someone you trust
-
-CALL TO ACTION (26-30 seconds):
-"Save this for later and follow for more mental health tips!"
-
-TRENDING AUDIO: Use calming/trending audio that fits the mood
-
-HASHTAGS:
-#MentalHealthTips #${topic.replace(/\s+/g, '')} #SelfCare #MentalHealthAwareness #TherapyTips #${platform}Reels
-
-DISCLAIMER: Educational content only. Not a substitute for professional help.`;
-
-      case 'story':
-        return `📱 STORY SERIES: ${topic.toUpperCase()}
-
-FRAME 1: Question Sticker
-"How do you currently handle ${topic.toLowerCase()}?"
-[Add poll: "I have strategies" vs "I need help"]
-
-FRAME 2: Tip
-"Quick tip: When you feel overwhelmed, try the 5-4-3-2-1 grounding technique"
-
-FRAME 3: Interactive
-"Swipe up to learn more about ${adjective} coping strategies"
-[Add link to blog post/website]
-
-FRAME 4: Encouragement
-"Remember: Seeking help is a sign of strength, not weakness 💪"
-
-FRAME 5: CTA
-"DM me if you want to learn more about therapy options"
-
-VISUAL STYLE: Calm colors, readable fonts, consistent branding`;
-
-      case 'text':
-        return `💭 TEXT POST: ${topic.toUpperCase()}
-
-Let's talk about ${topic.toLowerCase()} - something many of us experience but don't always know how to address effectively.
-
-As a therapist, I've seen how ${adjective} approaches can make a real difference. Here are some key insights:
-
-🔹 It's normal to feel this way sometimes
-🔹 Small, consistent actions often work better than dramatic changes  
-🔹 Professional support can provide personalized strategies
-🔹 You don't have to navigate this alone
-
-What's one small step you could take today toward better ${topic.toLowerCase()}?
-
-Share your thoughts in the comments - I love hearing from this community about what works for you.
-
-#MentalHealth #${topic.replace(/\s+/g, '')} #TherapyInsights #MentalHealthAwareness #ProfessionalSupport #${platform}
-
----
-Disclaimer: This post is for educational purposes only and does not constitute medical advice. If you're struggling, please consider reaching out to a mental health professional.`;
-
-      default:
-        return `Sample content for ${topic} in ${tone} tone for ${platform}`;
     }
   };
 
@@ -223,7 +117,7 @@ Disclaimer: This post is for educational purposes only and does not constitute m
   return (
     <div className="max-w-6xl mx-auto space-y-6">
       <div className="text-center">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Post Generator</h1>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">AI Post Generator</h1>
         <p className="text-gray-600">
           Create engaging, ethical content tailored to your practice and audience
         </p>
@@ -233,7 +127,6 @@ Disclaimer: This post is for educational purposes only and does not constitute m
         {/* Input Panel */}
         <Card className="p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-6">Content Settings</h2>
-          
           <div className="space-y-6">
             {/* Format Selection */}
             <div>
@@ -365,9 +258,9 @@ Disclaimer: This post is for educational purposes only and does not constitute m
               className="space-y-4"
             >
               <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                <SafeIcon 
-                  icon={formats.find(f => f.id === selectedFormat)?.icon} 
-                  className="w-5 h-5 text-primary-600" 
+                <SafeIcon
+                  icon={formats.find(f => f.id === selectedFormat)?.icon}
+                  className="w-5 h-5 text-primary-600"
                 />
                 <div>
                   <p className="font-medium text-gray-900">{generatedContent.format}</p>

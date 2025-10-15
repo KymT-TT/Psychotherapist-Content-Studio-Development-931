@@ -7,10 +7,7 @@ import SafeIcon from '../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
 import toast from 'react-hot-toast';
 
-const { 
-  FiBookOpen, FiSearch, FiFilter, FiHeart, FiCopy, FiEdit3, 
-  FiInstagram, FiLinkedin, FiYoutube, FiPlus, FiTag, FiClock 
-} = FiIcons;
+const { FiBookOpen, FiSearch, FiFilter, FiHeart, FiCopy, FiEdit3, FiInstagram, FiLinkedin, FiYoutube, FiPlus, FiTag, FiClock } = FiIcons;
 
 const ContentVault = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -104,11 +101,9 @@ const ContentVault = () => {
   });
 
   const toggleFavorite = (id) => {
-    setSavedIdeas(prev => 
-      prev.map(idea => 
-        idea.id === id ? { ...idea, isFavorite: !idea.isFavorite } : idea
-      )
-    );
+    setSavedIdeas(prev => prev.map(idea => 
+      idea.id === id ? { ...idea, isFavorite: !idea.isFavorite } : idea
+    ));
     toast.success('Favorite updated!');
   };
 
@@ -133,17 +128,12 @@ const ContentVault = () => {
 
     setSavedIdeas(prev => [idea, ...prev]);
     setShowAddModal(false);
-    setNewIdea({
-      title: '',
-      content: '',
-      platform: '',
-      category: '',
-      tags: ''
-    });
+    setNewIdea({ title: '', content: '', platform: '', category: '', tags: '' });
     toast.success('Idea added to vault!');
   };
 
   const deleteIdea = (id) => {
+    const deletedIdea = savedIdeas.find(idea => idea.id === id);
     setSavedIdeas(prev => prev.filter(idea => idea.id !== id));
     toast.success('Idea deleted!');
   };
@@ -218,9 +208,9 @@ const ContentVault = () => {
               <div className="p-6">
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center space-x-2">
-                    <SafeIcon 
-                      icon={getPlatformIcon(idea.platform)} 
-                      className="w-5 h-5 text-primary-600" 
+                    <SafeIcon
+                      icon={getPlatformIcon(idea.platform)}
+                      className="w-5 h-5 text-primary-600"
                     />
                     <span className="text-sm font-medium text-gray-600 capitalize">
                       {idea.platform}
@@ -229,23 +219,22 @@ const ContentVault = () => {
                   <button
                     onClick={() => toggleFavorite(idea.id)}
                     className={`p-1 rounded-full transition-colors ${
-                      idea.isFavorite 
-                        ? 'text-red-500 hover:text-red-600' 
+                      idea.isFavorite
+                        ? 'text-red-500 hover:text-red-600'
                         : 'text-gray-400 hover:text-red-500'
                     }`}
                   >
                     <SafeIcon icon={FiHeart} className="w-4 h-4" />
                   </button>
                 </div>
-                
+
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">
                   {idea.title}
                 </h3>
-                
                 <p className="text-gray-600 text-sm mb-4 line-clamp-3">
                   {idea.content}
                 </p>
-                
+
                 <div className="flex flex-wrap gap-2 mb-4">
                   {idea.tags.slice(0, 3).map(tag => (
                     <span
@@ -261,7 +250,7 @@ const ContentVault = () => {
                     </span>
                   )}
                 </div>
-                
+
                 <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
                   <div className="flex items-center space-x-1">
                     <SafeIcon icon={FiClock} className="w-4 h-4" />
@@ -271,7 +260,7 @@ const ContentVault = () => {
                     {idea.category}
                   </span>
                 </div>
-                
+
                 <div className="flex space-x-2">
                   <Button
                     variant="outline"
@@ -332,7 +321,6 @@ const ContentVault = () => {
                 onChange={(e) => setNewIdea({ ...newIdea, title: e.target.value })}
                 placeholder="Enter a catchy title for your idea"
               />
-              
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Content Description
@@ -345,7 +333,6 @@ const ContentVault = () => {
                   placeholder="Describe your content idea in detail..."
                 />
               </div>
-              
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -364,7 +351,6 @@ const ContentVault = () => {
                     ))}
                   </select>
                 </div>
-                
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Category
@@ -383,7 +369,6 @@ const ContentVault = () => {
                   </select>
                 </div>
               </div>
-              
               <Input
                 label="Tags (comma-separated)"
                 value={newIdea.tags}
@@ -391,7 +376,6 @@ const ContentVault = () => {
                 placeholder="anxiety, tips, breathing, wellness"
               />
             </div>
-            
             <div className="flex justify-end space-x-3 mt-6">
               <Button
                 variant="outline"
